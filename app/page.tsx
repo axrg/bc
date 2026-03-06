@@ -8,6 +8,7 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [name,setName] = useState("");
   const [email,setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
 const handleSubmit = async (e:any) => {
   e.preventDefault();
@@ -26,7 +27,7 @@ const handleSubmit = async (e:any) => {
 
   try{
 
-    const res = await fetch("/api/register",{
+    await fetch("/api/register",{
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -34,16 +35,17 @@ const handleSubmit = async (e:any) => {
       body:JSON.stringify({name,email})
     });
 
-    const data = await res.json();
-
-    alert(data.message);
+    // mensaje solicitado en el ejercicio
+    setMessage(
+      "Gracias por tu interés en AdTech Essentials Bootcamp. Pronto recibirás más información. \n"
+    );
 
     setName("");
     setEmail("");
 
   }catch(error){
 
-    alert("Error al registrar");
+    setMessage("Ocurrió un error al registrar.");
 
   }
 };
@@ -125,6 +127,13 @@ const handleSubmit = async (e:any) => {
             Estamos felices de que quieras dar un paso hacia la industria tech.
             Completa el formulario para reservar tu lugar en el AdTech Essentials Bootcamp.
             </p>
+
+            {/* mensaje dinámico */}
+            {message && (
+              <p className="successMessage">
+                {message}
+              </p>
+            )}
 
             <form onSubmit={handleSubmit}>
 
